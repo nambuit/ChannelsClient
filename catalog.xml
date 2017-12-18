@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://192.168.2.32:8080/NAMBUITChannels/NIBBSNIPInterface?wsdl" uri="xml-resources/web-service-references/NIBBSNIPInterface/wsdl/192.168.2.32_8080/NAMBUITChannels/NIBBSNIPInterface.wsdl"/>
+    <system systemId="http://192.168.2.32:8080/NAMBUITChannels/NIBBSNIPInterface?xsd=1" uri="xml-resources/web-service-references/NIBBSNIPInterface/wsdl/192.168.2.32_8080/NAMBUITChannels/NIBBSNIPInterface.xsd_1.xsd"/>
+</catalog>
