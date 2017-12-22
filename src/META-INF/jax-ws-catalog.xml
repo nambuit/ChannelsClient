@@ -2,4 +2,8 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://192.168.2.32:8080/NAMBUITChannels/NIBBSNIPInterface?wsdl" uri="wsdl/192.168.2.32_8080/NAMBUITChannels/NIBBSNIPInterface.wsdl"/>
     <system systemId="http://192.168.2.32:8080/NAMBUITChannels/NIBBSNIPInterface?xsd=1" uri="wsdl/192.168.2.32_8080/NAMBUITChannels/NIBBSNIPInterface.xsd_1.xsd"/>
+    <system systemId="http://192.168.2.68:8080/NAMBUITChannels/NIBBSNIPInterface?wsdl" uri="wsdl/192.168.2.68_8080/NAMBUITChannels/NIBBSNIPInterface.wsdl"/>
+    <system systemId="http://192.168.2.68:8080/NAMBUITChannels/NIBBSNIPInterface?xsd=1" uri="wsdl/192.168.2.68_8080/NAMBUITChannels/NIBBSNIPInterface.xsd_1.xsd"/>
+    <system systemId="http://192.168.2.68:26748/NAMBUITChannels/NIBBSNIPInterface?wsdl" uri="wsdl/192.168.2.68_26748/NAMBUITChannels/NIBBSNIPInterface.wsdl"/>
+    <system systemId="http://192.168.2.68:26748/NAMBUITChannels/NIBBSNIPInterface?xsd=1" uri="wsdl/192.168.2.68_26748/NAMBUITChannels/NIBBSNIPInterface.xsd_1.xsd"/>
 </catalog>

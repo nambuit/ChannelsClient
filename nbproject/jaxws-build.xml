@@ -18,8 +18,8 @@
     </target>
     <target name="wsimport-client-NIBBSNIPInterface" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/NIBBSNIPInterface"/>
-        <property name="wsdl-NIBBSNIPInterface" location="xml-resources/web-service-references/NIBBSNIPInterface/wsdl/192.168.2.32_8080/NAMBUITChannels/NIBBSNIPInterface.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/NIBBSNIPInterface" destdir="${build.generated.dir}/jax-wsCache/NIBBSNIPInterface" wsdl="${wsdl-NIBBSNIPInterface}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://192.168.2.32:8080/NAMBUITChannels/NIBBSNIPInterface?wsdl" xnocompile="true" xendorsed="true">
+        <property name="wsdl-NIBBSNIPInterface" location="xml-resources/web-service-references/NIBBSNIPInterface/wsdl/192.168.2.68_8080/NAMBUITChannels/NIBBSNIPInterface.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/NIBBSNIPInterface" destdir="${build.generated.dir}/jax-wsCache/NIBBSNIPInterface" wsdl="${wsdl-NIBBSNIPInterface}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://192.168.2.68:8080/NAMBUITChannels/NIBBSNIPInterface?wsdl" xnocompile="true" xendorsed="true">
             <depends file="${wsdl-NIBBSNIPInterface}"/>
             <produces dir="${build.generated.dir}/jax-wsCache/NIBBSNIPInterface"/>
         </wsimport>
