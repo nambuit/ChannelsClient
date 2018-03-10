@@ -22,7 +22,6 @@ public class NameEnquiryResponse {
     
    
     private String requestID;
-    
 
     private String destinationInstitutionCode;
     

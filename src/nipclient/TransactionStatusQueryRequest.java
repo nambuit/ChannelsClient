@@ -5,29 +5,20 @@
  */
 package nipclient;
 
-
-
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  *
- * @author wumoru
+ * @author r16user
  */
 
 @Getter @Setter
-@XmlRootElement(name = "NameEnquiryRequest")
-public class NameEnquiryRequest {
-    
-   
+@XmlRootElement(name = "TransactionStatusQueryRequest")
+public class TransactionStatusQueryRequest {
+ 
     private String requestID;
-    
-
-    private String destinationInstitutionCode;
-    
-    private String accountNumber;
-    
+    private String nibssSessionID;
     private String hash;
-  
 }

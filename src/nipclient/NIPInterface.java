@@ -16,8 +16,6 @@ import tools.RestClient;
 public class NIPInterface {
     
     public String doNameEquiry(String input){
-      
-        
         try{
           Gson gson = new Gson(); 
         String [] data = input.split("#");
@@ -30,10 +28,8 @@ public class NIPInterface {
         request.setAccountNumber(targetacct);
         request.setDestinationInstitutionCode(destInst);
         request.setRequestID(UUID.randomUUID().toString());
-        
-       
-        
-      RestClient client =  new RestClient();
+
+      RestClient client =  new RestClient("http://192.168.10.40:20563/InlaksNIPClient/webresources/NIPOutwardInterface");
       
        String stringtohash = request.getRequestID() + request.getDestinationInstitutionCode() + request.getAccountNumber();
       
@@ -42,10 +38,7 @@ public class NIPInterface {
        request.setHash(hash);
       
       String payload = gson.toJson(request);
-     
       
-   
-        
        String responsebody = client.ProcessNIPRequest(payload, "NameEnquiry");
       
         NameEnquiryResponse response  = (NameEnquiryResponse) gson.fromJson(responsebody, NameEnquiryResponse.class);
@@ -57,7 +50,110 @@ public class NIPInterface {
         }
     }
     
+    public String doFundsTransferDC(String input){
+        try{
+          Gson gson = new Gson(); 
+//        String [] data = input.split("#");
+//        
+//        String targetacct = data[0];
+//        String destInst =  data[1];
+        
+        FundsTransferDCRequest request = (FundsTransferDCRequest) gson.fromJson(input, FundsTransferDCRequest.class);
+//        request.setAccountNumber(targetacct);
+//        request.setDestinationInstitutionCode(destInst);
+        request.setRequestID(UUID.randomUUID().toString());
+
+      RestClient client =  new RestClient();
+      
+       String stringtohash = request.getRequestID() + request.getDestinationInstitutionCode() + request.getBeneficiaryAccountNumber() + request.getAmount();
+      
+      String hash = client.get_SHA_512_Hash(stringtohash, "inlaks");
+      
+       request.setHash(hash);
+      
+      String payload = gson.toJson(request);
+
+       String responsebody = client.ProcessNIPRequest(payload, "FundsTransferDC");
+      
+        FundsTransferDCResponse response  = (FundsTransferDCResponse) gson.fromJson(responsebody, FundsTransferDCResponse.class);
+        
+        return response.getNibssSessionID()+"#"+response.getResponseCode()+"#"+response.getResponseDescription();
+        }
+        catch(Exception s){
+            return s.getMessage();
+        }
+    }
     
+    public String doTransactionStatusQuery(String input){
+        try{
+          Gson gson = new Gson(); 
+//        String [] data = input.split("#");
+//        
+//        String targetacct = data[0];
+//        String destInst =  data[1];
+        
+        TransactionStatusQueryRequest request = new TransactionStatusQueryRequest();
+        
+//        request.setAccountNumber(targetacct);
+//        request.setDestinationInstitutionCode(destInst);
+        request.setRequestID(UUID.randomUUID().toString());
+
+      RestClient client =  new RestClient();
+      
+       String stringtohash = request.getRequestID();
+      
+      String hash = client.get_SHA_512_Hash(stringtohash, "inlaks");
+      
+       request.setHash(hash);
+      
+      String payload = gson.toJson(request);
+
+       String responsebody = client.ProcessNIPRequest(payload, "TransactionStatusQuery");
+      
+        TransactionStatusQueryResponse response  = (TransactionStatusQueryResponse) gson.fromJson(responsebody, TransactionStatusQueryResponse.class);
+        
+        return response.getNibssSessionID()+"#"+response.getResponseCode()+"#"+response.getResponseDescription();
+        }
+        catch(Exception s){
+            return s.getMessage();
+        }
+    }
+    
+    public String dogetFIList(){
+        try{
+          Gson gson = new Gson(); 
+//        String [] data = input.split("#");
+//        
+//        String targetacct = data[0];
+//        String destInst =  data[1];
+        
+        getFIListRequest request = new getFIListRequest();
+        
+//        request.setAccountNumber(targetacct);
+//        request.setDestinationInstitutionCode(destInst);
+        request.setRequestID(UUID.randomUUID().toString());
+
+      RestClient client =  new RestClient();
+      
+       String stringtohash = "NambuitCore";
+      
+      String hash = client.get_SHA_512_Hash(stringtohash, "inlaks");
+      
+       request.setHash(hash);
+      
+      String payload = gson.toJson(request);
+
+       String responsebody = client.ProcessNIPRequest(payload, "getFIList");
+      
+        getFIListResponse response  = (getFIListResponse) gson.fromJson(responsebody, getFIListResponse.class);
+        
+//        return response.getNibssSessionID()+"#"+response.getResponseCode()+"#"+response.getResponseDescription(); 
+        return "list";
+        }
+        catch(Exception s){
+            return s.getMessage();
+        }
+    }
       public static void main(String [] args){
       //  String payload = "{\n\"requestID\":\"d997e1d2-17a6-11e8-b642-0ed5f89f718b\",\n\"destinationInstitutionCode\":\"999057\",\n\"accountNumber\":\"2003456773\",\n\"hash\":\"bf5d37684d83e676e8d76538461601442ca7030efbbf661d7fb2932993b412f06dac7c34390e028506a35a74c5cf8dcc488f4e4c208b8c405f2db335b5cbb17a\"\n}";
         String response = new NIPInterface().doNameEquiry("333232423#13232");
