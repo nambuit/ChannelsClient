@@ -135,7 +135,7 @@ public class NIPInterface {
 
       RestClient client =  new RestClient();
       
-       String stringtohash = "NambuitCore";
+       String stringtohash = request.getRequestID();
       
       String hash = client.get_SHA_512_Hash(stringtohash, "inlaks");
       
@@ -156,7 +156,7 @@ public class NIPInterface {
     }
       public static void main(String [] args){
       //  String payload = "{\n\"requestID\":\"d997e1d2-17a6-11e8-b642-0ed5f89f718b\",\n\"destinationInstitutionCode\":\"999057\",\n\"accountNumber\":\"2003456773\",\n\"hash\":\"bf5d37684d83e676e8d76538461601442ca7030efbbf661d7fb2932993b412f06dac7c34390e028506a35a74c5cf8dcc488f4e4c208b8c405f2db335b5cbb17a\"\n}";
-        String response = new NIPInterface().doNameEquiry("333232423#13232");
+        String response = new NIPInterface().dogetFIList();
     }
     
 }

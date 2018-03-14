@@ -5,7 +5,6 @@
  */
 package nipclient;
 
-import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 import lombok.Setter;
