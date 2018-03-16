@@ -18,18 +18,20 @@ public class NIPInterface {
     public String doNameEquiry(String input){
         try{
           Gson gson = new Gson(); 
-        String [] data = input.split("#");
+         //  String [] data = input.split("#");
+//        
+//        String targetacct = data[0];
+//        String destInst =  data[1];
+//        
+        NameEnquiryRequest request = (NameEnquiryRequest) gson.fromJson(input, NameEnquiryRequest.class);
         
-        String targetacct = data[0];
-        String destInst =  data[1];
-        
-        NameEnquiryRequest request = new NameEnquiryRequest();
-        
-        request.setAccountNumber(targetacct);
-        request.setDestinationInstitutionCode(destInst);
         request.setRequestID(UUID.randomUUID().toString());
 
-      RestClient client =  new RestClient("http://192.168.10.40:20563/InlaksNIPClient/webresources/NIPOutwardInterface");
+        request.setChannelCode("1");
+        request.setInstitutionCode("999103");
+     
+        
+      RestClient client =  new RestClient();
       
        String stringtohash = request.getRequestID() + request.getDestinationInstitutionCode() + request.getAccountNumber();
       
@@ -65,7 +67,8 @@ public class NIPInterface {
 
       RestClient client =  new RestClient();
       
-       String stringtohash = request.getRequestID() + request.getDestinationInstitutionCode() + request.getBeneficiaryAccountNumber() + request.getAmount();
+       String stringtohash = request.getRequestID() + request.getDestinationInstitutionCode() + request.getBeneficiaryAccountNumber()+request.getAmount();
+         
       
       String hash = client.get_SHA_512_Hash(stringtohash, "inlaks");
       
@@ -146,7 +149,7 @@ public class NIPInterface {
        String responsebody = client.ProcessNIPRequest(payload, "getFIList");
       
         getFIListResponse response  = (getFIListResponse) gson.fromJson(responsebody, getFIListResponse.class);
-        
+       
 //        return response.getNibssSessionID()+"#"+response.getResponseCode()+"#"+response.getResponseDescription(); 
         return "list";
         }
@@ -155,8 +158,29 @@ public class NIPInterface {
         }
     }
       public static void main(String [] args){
-      //  String payload = "{\n\"requestID\":\"d997e1d2-17a6-11e8-b642-0ed5f89f718b\",\n\"destinationInstitutionCode\":\"999057\",\n\"accountNumber\":\"2003456773\",\n\"hash\":\"bf5d37684d83e676e8d76538461601442ca7030efbbf661d7fb2932993b412f06dac7c34390e028506a35a74c5cf8dcc488f4e4c208b8c405f2db335b5cbb17a\"\n}";
-        String response = new NIPInterface().dogetFIList();
+          FundsTransferDCRequest request = new FundsTransferDCRequest();
+
+          request.setAmount("20000.00");
+          request.setNameEnquiryRef("999103181016131036476130226526");
+          request.setNarration("Inlaks FT Single DC Test ");
+          request.setBeneficiaryAccountNumber("1910000338");
+          request.setBeneficiaryAccountName("Adekunle Lawal USMAN");
+          request.setBeneficiaryBankVerificationNumber("22166598355");
+          request.setBeneficiaryKYCLevel("1");
+          request.setDestinationInstitutionCode("999100");
+          request.setOriginatorAccountName("DENNIS MADU");
+          request.setOriginatorAccountNumber("0010011709");
+          request.setOriginatorBankVerificationNumber("08069846565");
+          request.setOriginatorKYCLevel("1");
+          request.setChannelCode("1");
+          request.setInstitutionCode("999103");
+          
+          Gson gson = new Gson();
+          
+         
+          
+          String payload = gson.toJson(request);//"{\n\"requestID\":\"d997e1d2-17a6-11e8-b642-0ed5f89f718b\",\n\"destinationInstitutionCode\":\"999100\",\n\"accountNumber\":\"1910000338\",\n\"hash\":\"bf5d37684d83e676e8d76538461601442ca7030efbbf661d7fb2932993b412f06dac7c34390e028506a35a74c5cf8dcc488f4e4c208b8c405f2db335b5cbb17a\"\n}";
+        String response = new NIPInterface().doFundsTransferDC(payload);
     }
     
 }

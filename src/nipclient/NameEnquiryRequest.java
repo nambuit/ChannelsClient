@@ -29,5 +29,11 @@ public class NameEnquiryRequest {
     private String accountNumber;
     
     private String hash;
-  
+    
+    private String ChannelCode;
+    
+    private String InstitutionCode;
+
+   
+    
 }

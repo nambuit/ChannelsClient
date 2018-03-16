@@ -22,6 +22,7 @@ public class NameEnquiryResponse {
     
    
     private String requestID;
+    
 
     private String destinationInstitutionCode;
     
@@ -40,5 +41,9 @@ public class NameEnquiryResponse {
     private String nameEnquiryRef;
     
     private String hash;
+    
+    private String ChannelCode;
+    
+    private String InstitutionCode;
     
 }

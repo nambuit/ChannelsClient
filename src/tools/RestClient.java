@@ -23,7 +23,7 @@ import java.util.Date;
  */
 public class RestClient {
     
-    String endpointurl = "http://localhost:20563/InlaksNIPClient/webresources/NIPOutwardInterface";
+    String endpointurl = "http://localhost:8080/InlaksNIPClient/webresources/NIPOutwardInterface";
     
     public RestClient(String endpointaddresss){
         
