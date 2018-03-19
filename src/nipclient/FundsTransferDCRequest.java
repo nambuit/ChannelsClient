@@ -35,5 +35,6 @@ public class FundsTransferDCRequest {
     private String hash;
     private String ChannelCode;
     private String InstitutionCode;
+    private String PaymentReference;
     
 }

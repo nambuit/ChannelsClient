@@ -27,8 +27,8 @@ public class NIPInterface {
         
         request.setRequestID(UUID.randomUUID().toString());
 
-        request.setChannelCode("1");
-        request.setInstitutionCode("999103");
+       // request.setChannelCode("1");
+      //  request.setInstitutionCode("999103");
      
         
       RestClient client =  new RestClient();
@@ -158,24 +158,33 @@ public class NIPInterface {
         }
     }
       public static void main(String [] args){
+           Gson gson = new Gson();
           FundsTransferDCRequest request = new FundsTransferDCRequest();
-
+//          NameEnquiryRequest nerequest = new NameEnquiryRequest();
+//          nerequest.setAccountNumber("0791000003");
+//          nerequest.setChannelCode("1");
+//          nerequest.setDestinationInstitutionCode("999099");
+//         String nepayload = gson.toJson(nerequest);
+//         String neresponse = new NIPInterface().doNameEquiry(nepayload);
+          
           request.setAmount("20000.00");
-          request.setNameEnquiryRef("999103181016131036476130226526");
+          request.setNameEnquiryRef("999103184819104821578686561272");
           request.setNarration("Inlaks FT Single DC Test ");
-          request.setBeneficiaryAccountNumber("1910000338");
-          request.setBeneficiaryAccountName("Adekunle Lawal USMAN");
-          request.setBeneficiaryBankVerificationNumber("22166598355");
+          request.setBeneficiaryAccountNumber("0791000003");
+          request.setBeneficiaryAccountName("Emmanuel Ade");
+          request.setBeneficiaryBankVerificationNumber("22034417023");
           request.setBeneficiaryKYCLevel("1");
-          request.setDestinationInstitutionCode("999100");
+          request.setDestinationInstitutionCode("999099");
           request.setOriginatorAccountName("DENNIS MADU");
           request.setOriginatorAccountNumber("0010011709");
           request.setOriginatorBankVerificationNumber("08069846565");
           request.setOriginatorKYCLevel("1");
           request.setChannelCode("1");
           request.setInstitutionCode("999103");
+          request.setTransactionLocation("");
+          request.setPaymentReference("FT1288819273");
           
-          Gson gson = new Gson();
+        
           
          
           
