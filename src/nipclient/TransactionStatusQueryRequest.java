@@ -14,6 +14,7 @@ import lombok.Setter;
  * @author r16user
  */
 
+
 @Getter @Setter
 @XmlRootElement(name = "TransactionStatusQueryRequest")
 public class TransactionStatusQueryRequest {
@@ -21,6 +22,6 @@ public class TransactionStatusQueryRequest {
     private String requestID;
     private String nibssSessionID;
     private String hash;
-    private String ChannelCode;
-    private String InstitutionCode;
+     private String ChannelCode;
+     private String InstitutionCode;
 }

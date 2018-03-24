@@ -6,6 +6,7 @@
 package nipclient;
 
 import com.google.gson.Gson;
+import java.util.Random;
 import java.util.UUID;
 import tools.RestClient;
 
@@ -45,7 +46,7 @@ public class NIPInterface {
       
         NameEnquiryResponse response  = (NameEnquiryResponse) gson.fromJson(responsebody, NameEnquiryResponse.class);
         
-        return response.getAccountName()+"#"+response.getAccountNumber();
+        return responsebody;
         }
         catch(Exception s){
             return s.getMessage();
@@ -80,7 +81,7 @@ public class NIPInterface {
       
         FundsTransferDCResponse response  = (FundsTransferDCResponse) gson.fromJson(responsebody, FundsTransferDCResponse.class);
         
-        return response.getNibssSessionID()+"#"+response.getResponseCode()+"#"+response.getResponseDescription();
+        return responsebody;
         }
         catch(Exception s){
             return s.getMessage();
@@ -95,7 +96,7 @@ public class NIPInterface {
 //        String targetacct = data[0];
 //        String destInst =  data[1];
         
-        TransactionStatusQueryRequest request = new TransactionStatusQueryRequest();
+        TransactionStatusQueryRequest request = gson.fromJson(input,TransactionStatusQueryRequest.class);
         
 //        request.setAccountNumber(targetacct);
 //        request.setDestinationInstitutionCode(destInst);
@@ -103,7 +104,7 @@ public class NIPInterface {
 
       RestClient client =  new RestClient();
       
-       String stringtohash = request.getRequestID();
+       String stringtohash = request.getRequestID()+request.getNibssSessionID();
       
       String hash = client.get_SHA_512_Hash(stringtohash, "inlaks");
       
@@ -115,7 +116,7 @@ public class NIPInterface {
       
         TransactionStatusQueryResponse response  = (TransactionStatusQueryResponse) gson.fromJson(responsebody, TransactionStatusQueryResponse.class);
         
-        return response.getNibssSessionID()+"#"+response.getResponseCode()+"#"+response.getResponseDescription();
+        return responsebody;
         }
         catch(Exception s){
             return s.getMessage();
@@ -160,21 +161,29 @@ public class NIPInterface {
       public static void main(String [] args){
            Gson gson = new Gson();
           FundsTransferDCRequest request = new FundsTransferDCRequest();
-//          NameEnquiryRequest nerequest = new NameEnquiryRequest();
-//          nerequest.setAccountNumber("0791000003");
-//          nerequest.setChannelCode("1");
-//          nerequest.setDestinationInstitutionCode("999099");
-//         String nepayload = gson.toJson(nerequest);
-//         String neresponse = new NIPInterface().doNameEquiry(nepayload);
+          
+          Random rand = new Random();
+          NameEnquiryRequest nerequest = new NameEnquiryRequest();
+          nerequest.setAccountNumber("0791000003");
+          nerequest.setChannelCode("1");
+          nerequest.setDestinationInstitutionCode("999099");
+                nerequest.setChannelCode("1");
+          nerequest.setInstitutionCode("999103");
+         String nepayload = gson.toJson(nerequest);
+   
+         String neresponse = new NIPInterface().doNameEquiry(nepayload);
+
+NameEnquiryResponse neresponseobj  = (NameEnquiryResponse) gson.fromJson(neresponse, NameEnquiryResponse.class);
+
           
           request.setAmount("20000.00");
-          request.setNameEnquiryRef("999103184819104821578686561272");
+          request.setNameEnquiryRef(neresponseobj.getNameEnquiryRef());
           request.setNarration("Inlaks FT Single DC Test ");
-          request.setBeneficiaryAccountNumber("0791000003");
-          request.setBeneficiaryAccountName("Emmanuel Ade");
-          request.setBeneficiaryBankVerificationNumber("22034417023");
-          request.setBeneficiaryKYCLevel("1");
-          request.setDestinationInstitutionCode("999099");
+          request.setBeneficiaryAccountNumber(neresponseobj.getAccountNumber());
+          request.setBeneficiaryAccountName(neresponseobj.getAccountName());
+          request.setBeneficiaryBankVerificationNumber(neresponseobj.getBankVerificationNo());
+          request.setBeneficiaryKYCLevel(neresponseobj.getKycLevel());
+          request.setDestinationInstitutionCode(neresponseobj.getDestinationInstitutionCode());
           request.setOriginatorAccountName("DENNIS MADU");
           request.setOriginatorAccountNumber("0010011709");
           request.setOriginatorBankVerificationNumber("08069846565");
@@ -182,14 +191,30 @@ public class NIPInterface {
           request.setChannelCode("1");
           request.setInstitutionCode("999103");
           request.setTransactionLocation("");
-          request.setPaymentReference("FT1288819273");
+          request.setPaymentReference("FT3533"+rand.nextInt(458588));
           
         
           
          
           
-          String payload = gson.toJson(request);//"{\n\"requestID\":\"d997e1d2-17a6-11e8-b642-0ed5f89f718b\",\n\"destinationInstitutionCode\":\"999100\",\n\"accountNumber\":\"1910000338\",\n\"hash\":\"bf5d37684d83e676e8d76538461601442ca7030efbbf661d7fb2932993b412f06dac7c34390e028506a35a74c5cf8dcc488f4e4c208b8c405f2db335b5cbb17a\"\n}";
-        String response = new NIPInterface().doFundsTransferDC(payload);
+        String payload = gson.toJson(request);//"{\n\"requestID\":\"d997e1d2-17a6-11e8-b642-0ed5f89f718b\",\n\"destinationInstitutionCode\":\"999100\",\n\"accountNumber\":\"1910000338\",\n\"hash\":\"bf5d37684d83e676e8d76538461601442ca7030efbbf661d7fb2932993b412f06dac7c34390e028506a35a74c5cf8dcc488f4e4c208b8c405f2db335b5cbb17a\"\n}";
+        String ftresponse = new NIPInterface().doFundsTransferDC(payload);
+        
+        FundsTransferDCResponse ftresponseobj  = (FundsTransferDCResponse) gson.fromJson(ftresponse, FundsTransferDCResponse.class);
+   
+        
+        
+        TransactionStatusQueryRequest tsq = new TransactionStatusQueryRequest();
+        tsq.setChannelCode("1");
+        tsq.setInstitutionCode("999103");
+        tsq.setNibssSessionID(ftresponseobj.getNibssSessionID());
+    
+        
+        String tspayload = gson.toJson(tsq);
+       // String response = new NIPInterface().doFundsTransferDC(payload) 
+        
+      String  response = new NIPInterface().doTransactionStatusQuery(tspayload);
+      
     }
     
 }
