@@ -45,14 +45,14 @@ public class RestClient {
         connection.setInstanceFollowRedirects(false); 
         connection.setRequestMethod("POST"); 
         connection.setRequestProperty("Accept", "application/json"); 
-        connection.setRequestProperty("applicationID", "NambuitCore");  
+        connection.setRequestProperty("applicationID", "NAMBUIT_Core");  
         connection.setRequestProperty("Content-Type", "application/json");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
         
         Date date = new Date();
         
         connection.setRequestProperty("timeStamp", sdf.format(date));
-        connection.setRequestProperty("authenticationID", "ddfff");
+        connection.setRequestProperty("authenticationID", "F512483D-2A00-4310-AB87-96DBDEA365C6");
        
         
          OutputStream os = connection.getOutputStream();

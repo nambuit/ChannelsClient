@@ -36,7 +36,7 @@ public class NIPInterface {
       
        String stringtohash = request.getRequestID() + request.getDestinationInstitutionCode() + request.getAccountNumber();
       
-      String hash = client.get_SHA_512_Hash(stringtohash, "inlaks");
+      String hash = client.get_SHA_512_Hash(stringtohash, "4466FA2C-1886-4366-B014-AD140712BE38");
       
        request.setHash(hash);
       
@@ -71,7 +71,7 @@ public class NIPInterface {
        String stringtohash = request.getRequestID() + request.getDestinationInstitutionCode() + request.getBeneficiaryAccountNumber()+request.getAmount();
          
       
-      String hash = client.get_SHA_512_Hash(stringtohash, "inlaks");
+      String hash = client.get_SHA_512_Hash(stringtohash, "4466FA2C-1886-4366-B014-AD140712BE38");
       
        request.setHash(hash);
       
@@ -106,7 +106,7 @@ public class NIPInterface {
       
        String stringtohash = request.getRequestID()+request.getNibssSessionID();
       
-      String hash = client.get_SHA_512_Hash(stringtohash, "inlaks");
+      String hash = client.get_SHA_512_Hash(stringtohash, "4466FA2C-1886-4366-B014-AD140712BE38");
       
        request.setHash(hash);
       
@@ -137,11 +137,12 @@ public class NIPInterface {
 //        request.setDestinationInstitutionCode(destInst);
         request.setRequestID(UUID.randomUUID().toString());
 
+     
       RestClient client =  new RestClient();
       
        String stringtohash = request.getRequestID();
       
-      String hash = client.get_SHA_512_Hash(stringtohash, "inlaks");
+      String hash = client.get_SHA_512_Hash(stringtohash, "4466FA2C-1886-4366-B014-AD140712BE38");
       
        request.setHash(hash);
       
@@ -160,13 +161,14 @@ public class NIPInterface {
     }
       public static void main(String [] args){
            Gson gson = new Gson();
+          // String fi = new NIPInterface().dogetFIList();
           FundsTransferDCRequest request = new FundsTransferDCRequest();
           
           Random rand = new Random();
           NameEnquiryRequest nerequest = new NameEnquiryRequest();
-          nerequest.setAccountNumber("0791000003");
+          nerequest.setAccountNumber("0030761842");
           nerequest.setChannelCode("1");
-          nerequest.setDestinationInstitutionCode("999099");
+          nerequest.setDestinationInstitutionCode("999063");
                 nerequest.setChannelCode("1");
           nerequest.setInstitutionCode("999103");
          String nepayload = gson.toJson(nerequest);
