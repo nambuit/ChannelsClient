@@ -33,6 +33,9 @@ public class RestClient {
        public RestClient(){
          
     }
+       public String applicationID = "NAMBUIT_Core";
+       
+       public String authenticationID = "F512483D-2A00-4310-AB87-96DBDEA365C6";
     
     public String ProcessNIPRequest(String payload, String methodName){
         
@@ -45,14 +48,14 @@ public class RestClient {
         connection.setInstanceFollowRedirects(false); 
         connection.setRequestMethod("POST"); 
         connection.setRequestProperty("Accept", "application/json"); 
-        connection.setRequestProperty("applicationID", "NambuitCore");  
+        connection.setRequestProperty("applicationID", applicationID);  
         connection.setRequestProperty("Content-Type", "application/json");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
         
         Date date = new Date();
         
         connection.setRequestProperty("timeStamp", sdf.format(date));
-        connection.setRequestProperty("authenticationID", "ddfff");
+        connection.setRequestProperty("authenticationID", authenticationID);
        
         
          OutputStream os = connection.getOutputStream();
