@@ -165,13 +165,13 @@ public class NIPInterface
     
     String nepayload = gson.toJson(firequest);
     
-    String firesponse = new NIPInterface().dogetFIList("");
+//    String firesponse = new NIPInterface().dogetFIList("");
     
     Random rand = new Random();
     NameEnquiryRequest nerequest = new NameEnquiryRequest();
-    nerequest.setAccountNumber("0791000003");
+    nerequest.setAccountNumber("2085312115");
     nerequest.setChannelCode("1");
-    nerequest.setDestinationInstitutionCode("999099");
+    nerequest.setDestinationInstitutionCode("999033");
     nerequest.setChannelCode("1");
     nerequest.setInstitutionCode("999103");
     nepayload = gson.toJson(nerequest);
