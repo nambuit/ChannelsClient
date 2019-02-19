@@ -168,7 +168,7 @@ public class NIPInterface
       
       request.setRequestID(UUID.randomUUID().toString());
       
-      RestClient client = new RestClient();
+      RestClient client = new RestClient("http://172.16.10.5:8080/NIPClient/webresources/McashInterface");
       
       String stringtohash = request.getRequestID() + request.getMerchantCode() + request.getAccountNumber(); //+ request.getAmount();
       
@@ -211,11 +211,32 @@ public class NIPInterface
     nerequest.setInstitutionCode("070001");
     String nepayload = gson.toJson(nerequest);
     
-    String neresponse = new NIPInterface().doNameEquiry(nepayload);
+    String neresponse = new NIPInterface().RegisterMerchantRequest("{\n" +
+"	\"requestID\": \"4555kgfl\",\n" +
+"	\"merchantCode\": \"34556678\",\n" +
+"	\"merchantName\": \"MUSA\",\n" +
+"	\"contactName\": \"LAGOS\",\n" +
+"	\"phoneNumber\": \"090456677776\",\n" +
+"	\"emailAddress\": \"musaemeka002@gmail.com\",\n" +
+"	\"street\": \"3,Alade-owo estate,Ajah\",\n" +
+"	\"lGA\": \"Eti-osa\",\n" +
+"	\"state\": \"Edo\",\n" +
+"	\"gpsLocation\": \"Ijesha\",\n" +
+"	\"groupCode\": \"4567738-jfncm\",\n" +
+"	\"groupName\": \"AXION\",\n" +
+"	\"accountName\": \"Emeka\",\n" +
+"	\"accountNumber\": \"346526758\",\n" +
+"	\"InstitutionCode\": \"34456678090\",\n" +
+"	\"kyc\": \"029\",\n" +
+"	\"bvn\": \"222222222\",\n" +
+"	\"maximumTransactionAmount\": \"1,000,000,000\",\n" +
+"	\"defferedSettlement\": \"IKEJA\",\n" +
+"	\"hash\": \"34356364-688695kfkkd\"\n" +
+"}");
     
-  //  NameEnquiryResponse neresponseobj = (NameEnquiryResponse)gson.fromJson(neresponse, NameEnquiryResponse.class);
+    NameEnquiryResponse neresponseobj = (NameEnquiryResponse)gson.fromJson(neresponse, NameEnquiryResponse.class);
     
-//    request.setAmount("150.00");
+    String sd ="";
 //    request.setNameEnquiryRef(neresponseobj.getNameEnquiryRef());
 //    request.setNarration("Inlaks FT Single DC Test ");
 //    request.setBeneficiaryAccountNumber(neresponseobj.getAccountNumber());
