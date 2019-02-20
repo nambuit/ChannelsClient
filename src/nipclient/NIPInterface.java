@@ -5,6 +5,8 @@ import java.util.Random;
 import java.util.UUID;
 import mcashchannelwrappers.RegisterMerchantRequest;
 import mcashchannelwrappers.RegisterMerchantResponse;
+import mcashchannelwrappers.RegisterPaymentDetailRequest;
+import mcashchannelwrappers.RegisterPaymentDetailResponse;
 import tools.RestClient;
 
 public class NIPInterface
@@ -190,6 +192,38 @@ public class NIPInterface
     }
   }
   
+  public String RegisterPaymentDetailRequest(String input)
+  {
+    try
+    {
+      Gson gson = new Gson();
+      
+      RegisterPaymentDetailRequest request = (RegisterPaymentDetailRequest)gson.fromJson(input, RegisterPaymentDetailRequest.class);
+      
+      request.setRequestID(UUID.randomUUID().toString());
+      
+      RestClient client = new RestClient("http://172.16.10.5:8080/NIPClient/webresources/McashInterface");
+      
+      String stringtohash = request.getRequestID() + request.getMerchantcode() + request.getAccountnumber(); //+ request.getAmount();
+      
+      String hash = client.get_SHA_512_Hash(stringtohash, APIKey);
+      
+      request.setHash(hash);
+      
+      String payload = gson.toJson(request);
+      
+      String responsebody = client.ProcessMcashRequest(payload, "executePaymentDetails");
+      
+      RegisterPaymentDetailResponse response = (RegisterPaymentDetailResponse) gson.fromJson(responsebody, RegisterPaymentDetailResponse.class);
+
+      
+      return response.getHash()+ '#' + response.getMerchantCode()+ '#' + response.getResponsecode() + '#' + response.getSessionID();
+    }
+    catch (Exception s)
+    {
+      return s.getMessage();
+    }
+  }
   
   public static void main(String[] args)
   {
