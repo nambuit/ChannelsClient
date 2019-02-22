@@ -236,39 +236,29 @@ public class NIPInterface
     
  //   String firesponse = new NIPInterface().dogetFIList("");
     
-    Random rand = new Random();
-    NameEnquiryRequest nerequest = new NameEnquiryRequest();
-    nerequest.setAccountNumber("0019291825");
-    nerequest.setChannelCode("1");
-    nerequest.setDestinationInstitutionCode("000013");
-    nerequest.setChannelCode("1");
-    nerequest.setInstitutionCode("070001");
-    String nepayload = gson.toJson(nerequest);
+//    Random rand = new Random();
+//    NameEnquiryRequest nerequest = new NameEnquiryRequest();
+//    nerequest.setAccountNumber("0019291825");
+//    nerequest.setChannelCode("1");
+//    nerequest.setDestinationInstitutionCode("000013");
+//    nerequest.setChannelCode("1");
+//    nerequest.setInstitutionCode("070001");
+//    String nepayload = gson.toJson(nerequest);
     
-    String neresponse = new NIPInterface().RegisterMerchantRequest("{\n" +
-"	\"requestID\": \"4555kgfl\",\n" +
-"	\"merchantCode\": \"34556678\",\n" +
-"	\"merchantName\": \"MUSA\",\n" +
-"	\"contactName\": \"LAGOS\",\n" +
-"	\"phoneNumber\": \"090456677776\",\n" +
-"	\"emailAddress\": \"musaemeka002@gmail.com\",\n" +
-"	\"street\": \"3,Alade-owo estate,Ajah\",\n" +
-"	\"lGA\": \"Eti-osa\",\n" +
-"	\"state\": \"Edo\",\n" +
-"	\"gpsLocation\": \"Ijesha\",\n" +
-"	\"groupCode\": \"4567738-jfncm\",\n" +
-"	\"groupName\": \"AXION\",\n" +
-"	\"accountName\": \"Emeka\",\n" +
-"	\"accountNumber\": \"346526758\",\n" +
-"	\"InstitutionCode\": \"34456678090\",\n" +
-"	\"kyc\": \"029\",\n" +
-"	\"bvn\": \"222222222\",\n" +
-"	\"maximumTransactionAmount\": \"1,000,000,000\",\n" +
-"	\"defferedSettlement\": \"IKEJA\",\n" +
-"	\"hash\": \"34356364-688695kfkkd\"\n" +
-"}");
+    String neresponse = new NIPInterface().RegisterPaymentDetailRequest("{\n" +
+"	\"requestID\": \"0000001\",\n" +
+"	\"sessionID\": \"367\",\n" +
+"	\"payerphonenumber\": \"08167473832\",\n" +
+"	\"payerBVN\": \"22222222233\",\n" +
+"	\"merchantcode\": \"00123456\",\n" +
+"	\"Amount\": \"100.5\",\n" +
+"	\"InstitutionCode\": \"2456789\",\n" +
+"	\"FinancialInstitutionCode\": \"4784739\",\n" +
+"	\"Accountnumber\": \"23456788945\",\n" +
+"	\"hash\": \"34785-958kfj\"\n" +
+"} ");
     
-    NameEnquiryResponse neresponseobj = (NameEnquiryResponse)gson.fromJson(neresponse, NameEnquiryResponse.class);
+    RegisterPaymentDetailRequest neresponseobj = (RegisterPaymentDetailRequest)gson.fromJson(neresponse, RegisterPaymentDetailRequest.class);
     
     String sd ="";
 //    request.setNameEnquiryRef(neresponseobj.getNameEnquiryRef());

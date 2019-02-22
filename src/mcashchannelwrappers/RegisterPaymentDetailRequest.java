@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package mcashchannelwrappers;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,12 +12,12 @@ import lombok.Setter;
  *
  * @author emusa
  */
-@Getter @Setter
+ @Getter @Setter
 public class RegisterPaymentDetailRequest {
     
     private String requestID;
     private String sessionID;
-    private String payphonenumber;
+    private String payerphonenumber;
     private String payerBVN;
     private String merchantcode;
     private String Amount;
