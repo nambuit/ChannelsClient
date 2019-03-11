@@ -23,6 +23,8 @@ import java.util.Date;
  */
 public class RestClient {
     
+    String authenticationID = "F512483D-2A00-4310-AB87-96DBDEA365C6";
+    
     String endpointurl = "http://localhost:8080/InlaksNIPClient/webresources/NIPOutwardInterface";
     
     public RestClient(String endpointaddresss){
@@ -77,6 +79,48 @@ public class RestClient {
     } 
     }
     
+     public String ProcessRequest(String payload, String methodName){
+        
+        try {
+            
+        URL url = new URL(endpointurl+"/"+methodName); 
+        
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
+        connection.setDoOutput(true); 
+        connection.setInstanceFollowRedirects(false); 
+        connection.setRequestMethod("POST"); 
+        connection.setRequestProperty("Accept", "application/json"); 
+        connection.setRequestProperty("applicationID", "NAMBUIT_Core");  
+        connection.setRequestProperty("Content-Type", "application/json");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        
+        Date date = new Date();
+        
+        connection.setRequestProperty("timeStamp", sdf.format(date));
+        connection.setRequestProperty("authenticationID",authenticationID);
+       
+        
+         OutputStream os = connection.getOutputStream();
+        
+        os.write(payload.getBytes("UTF8")); 
+        
+        os.flush();
+
+            BufferedReader   br = new BufferedReader(new InputStreamReader((connection.getInputStream())));
+          StringBuilder sb = new StringBuilder();
+          String output;
+          
+          while ((output = br.readLine()) != null) {
+          sb.append(output);
+                 
+        }
+        
+          return sb.toString();
+
+    } catch(Exception e) { 
+        throw new RuntimeException(e); 
+    } 
+    }
   
      public String get_SHA_512_Hash(String StringToHash, String   salt) throws Exception{
 String generatedPassword = null;
