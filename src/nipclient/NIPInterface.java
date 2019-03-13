@@ -10,6 +10,8 @@ import bvnclient.BvnSingleSearchResponse;
 import com.google.gson.Gson;
 import java.util.Random;
 import java.util.UUID;
+import mcashchannelwrappers.RegisterMerchantRequest;
+import mcashchannelwrappers.RegisterMerchantResponse;
 import tools.RestClient;
 
 /**
@@ -213,20 +215,48 @@ public class NIPInterface
         }
     }
     
+    
+     public String RegisterMerchantRequest(String input)
+  {
+    try
+    {
+      Gson gson = new Gson();
+      
+      RegisterMerchantRequest request = (RegisterMerchantRequest)gson.fromJson(input, RegisterMerchantRequest.class);
+      
+      //request.setRequestID(UUID.randomUUID().toString());
+      
+      RestClient client = new RestClient("http://localhost:8080/InlaksNIPClient/webresources/McashInterface"); //172.16.10.5  
+      
+      String stringtohash = request.getMerchantCode() + request.getAccountNumber(); //+ request.getAmount();
+      
+      String hash = client.get_SHA_512_Hash(stringtohash, APIKey);
+      
+      request.setHash(hash);
+      
+      String payload = gson.toJson(request);
+      
+      String responsebody = client.ProcessRequest(payload, "RegisterMerchant");
+      
+      RegisterMerchantResponse response = (RegisterMerchantResponse)gson.fromJson(responsebody, RegisterMerchantResponse.class);
+      
+      return response.getHash()+ '#' + response.getMerchantCode()+ '#' + response.getResponseCode() + '#' + response.getSessionID();
+    }
+    catch (Exception s)
+    {
+      return s.getMessage();
+    }
+  }
       
     public String getSingleBVN(String input){
         try{
           Gson gson = new Gson(); 
-//        String [] data = input.split("#");
-//        
-//        String targetacct = data[0];
-//        String destInst =  data[1];
+
         
         BvnSingleSearchRequest request = (BvnSingleSearchRequest) gson.fromJson(input, BvnSingleSearchRequest.class);
-//        request.setAccountNumber(targetacct);
-//        request.setDestinationInstitutionCode(destInst);
-        
+
         request.setRequestID(UUID.randomUUID().toString());
+        
 
       RestClient client =  new RestClient(bvnurl);
       
@@ -244,11 +274,11 @@ public class NIPInterface
       
         BvnSingleSearchResponse response  = (BvnSingleSearchResponse) gson.fromJson(responsebody, BvnSingleSearchResponse.class);
         
-       String T24_response  = response.getDateOfBirth()+'#'+response.getFirstName()+'#'+response.getLastName();
-        
+       String T24_response  = response.getBVN()+'#'+response.getFirstName()+'#'+response.getMiddleName()+'#'+response.getLastName()+'#'+response.getEmail()+'#'+response.getRegistrationDate()+'#'+response.getDateOfBirth()+'#'+response.getEnrollmentBank()+'#'+response.getNIN()+'#'+response.getResponsedescription();
+       String t2 = response.getPhonenumber1()+'#'+response.getPhonenumber2()+'#'+response.getEnrollmentBranch()+'#'+response.getGender()+'#'+response.getLevelOfAccount()+'#'+response.getLgaOfOrigin()+'#'+response.getLgaOfResidence()+'#'+response.getMaritalStatus()+'#'+response.getResponsecode()+'#'+response.getBase64Image()+'#'+response.getNationality();
        //String T24_response =  "000001100913103301000000000002#INK_NIP_00#SUCCESSFUL";
         
-        return T24_response;
+        return T24_response+'#'+t2;
         }
         catch(Exception s){
             return s.getMessage();
@@ -259,7 +289,7 @@ public class NIPInterface
       public static void main(String [] args){
           
            Gson gson = new Gson();
-          FundsTransferDCRequest request = new FundsTransferDCRequest();
+          //FundsTransferDCRequest request = new FundsTransferDCRequest();
           
 //          getFIListRequest firequest = new getFIListRequest();
 //          
@@ -268,17 +298,35 @@ public class NIPInterface
 //          String firesponse = new NIPInterface().dogetFIList("");
 //          
           
-          Random rand = new Random();
-          NameEnquiryRequest nerequest = new NameEnquiryRequest();
-          nerequest.setAccountNumber("0791000003");
-          nerequest.setChannelCode("1");
-          nerequest.setDestinationInstitutionCode("999099");
-                nerequest.setChannelCode("1");
-          nerequest.setInstitutionCode("999103");
-          String nepayload = gson.toJson(nerequest);
+//          Random rand = new Random();
+//          NameEnquiryRequest nerequest = new NameEnquiryRequest();
+//          nerequest.setAccountNumber("0791000003");
+//          nerequest.setChannelCode("1");
+//          nerequest.setDestinationInstitutionCode("999099");
+//                nerequest.setChannelCode("1");
+//          nerequest.setInstitutionCode("999103");
+//          String nepayload = gson.toJson(nerequest);
    
-         String neresponse = new NIPInterface().getSingleBVN("{\"BVN\": \"2222222225\"}");
-//
+         String neresponse = new NIPInterface().RegisterMerchantRequest("{\n" +
+"	\"merchantCode\": \"01123455\",\n" +
+"	\"merchantName\": \"MUSA ENT\",\n" +
+"	\"contactName\": \"MUSA AHMED\",\n" +
+"	\"phoneNumber\": \"09045667777\",\n" +
+"	\"emailAddress\": \"musaemeka002@gmail.com\",\n" +
+"	\"Street\": \"3,Alade-owo estate,Ajah\",\n" +
+"	\"LGA\": \"Eti-osa\",\n" +
+"	\"State\": \"Edo\",\n" +
+"	\"groupCode\": \"4567738\",\n" +
+"	\"groupName\": \"Lome\",\n" +
+"	\"accountName\": \"Emeka\",\n" +
+"	\"accountNumber\": \"346526758\",\n" +
+"	\"InstitutionCode\": \"105080\",\n" +
+"	\"kyc\": \"029\",\n" +
+"	\"BVN\": \"22222222225\",\n" +
+"	\"maximumTransactionAmount\": \"1,000,000,000\",\n" +
+"	\"defferedSettlement\": \"True\"\n" +
+"}");
+// 22222222225
 //NameEnquiryResponse neresponseobj  = (NameEnquiryResponse) gson.fromJson(neresponse, NameEnquiryResponse.class);
 //
 //          request.setAmount("20000.00");
@@ -309,15 +357,16 @@ public class NIPInterface
 //        FundsTransferDCResponse ftresponseobj  = (FundsTransferDCResponse) gson.fromJson(ftresponse, FundsTransferDCResponse.class);
 //   
 //        
-        
-        TransactionStatusQueryRequest tsq = new TransactionStatusQueryRequest();
-        tsq.setChannelCode("1");
-        tsq.setInstitutionCode("999103");
-//        tsq.setNibssSessionID(ftresponseobj.getNibssSessionID());
-        tsq.setNibssSessionID("999103183228173227502455735003");
     
-        
-        String tspayload = gson.toJson(tsq);
+String sd = "";
+//        TransactionStatusQueryRequest tsq = new TransactionStatusQueryRequest();
+//        tsq.setChannelCode("1");
+//        tsq.setInstitutionCode("999103");
+////        tsq.setNibssSessionID(ftresponseobj.getNibssSessionID());
+//        tsq.setNibssSessionID("999103183228173227502455735003");
+//    
+//        
+//        String tspayload = gson.toJson(tsq);
        // String response = new NIPInterface().doFundsTransferDC(payload) 
         
      // String  response = new NIPInterface().doTransactionStatusQuery();
